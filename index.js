@@ -6,7 +6,7 @@
  * @flow
  */
 
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
     StyleSheet,
     View,
@@ -18,12 +18,12 @@ import {
 
 import PropTypes from 'prop-types';
 const ViewPropTypes = RNViewPropTypes || View.propTypes;
-export const DURATION = { 
+export const DURATION = {
     LENGTH_SHORT: 500,
     FOREVER: 0,
 };
 
-const {height, width} = Dimensions.get('window');
+const { height, width } = Dimensions.get('window');
 
 export default class Toast extends Component {
 
@@ -52,14 +52,14 @@ export default class Toast extends Component {
             }
         ).start(() => {
             this.isShow = true;
-            if(duration !== DURATION.FOREVER) this.close();
+            if (duration !== DURATION.FOREVER) this.close();
         });
     }
 
-    close( duration ) {
+    close(duration) {
         let delay = typeof duration === 'undefined' ? this.duration : duration;
 
-        if(delay === DURATION.FOREVER) delay = this.props.defaultCloseDelay || 250;
+        if (delay === DURATION.FOREVER) delay = this.props.defaultCloseDelay || 250;
 
         if (!this.isShow && !this.state.isShow) return;
         this.timer && clearTimeout(this.timer);
@@ -75,7 +75,7 @@ export default class Toast extends Component {
                     isShow: false,
                 });
                 this.isShow = false;
-                if(typeof this.callback === 'function') {
+                if (typeof this.callback === 'function') {
                     this.callback();
                 }
             });
@@ -86,23 +86,34 @@ export default class Toast extends Component {
         this.timer && clearTimeout(this.timer);
     }
 
-    render() {
-        let pos;
-        switch (this.props.position) {
-            case 'top':
-                pos = this.props.positionValue;
-                break;
-            case 'center':
-                pos = height / 2;
-                break;
-            case 'bottom':
-                pos = height - this.props.positionValue;
-                break;
+    getPosition() {
+        if (this.props.position) {
+            if (this.props.position === 'top') {
+                return {
+                    top: 0
+                }
+            }
+            if (this.props.position === 'center') {
+                return {
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                }
+            }
+            if (this.props.position === 'bottom') {
+                return {
+                    bottom: 0
+                }
+            }
+        } else {
+            return {
+                bottom: 0
+            }
         }
-
+    }
+    render() {
         const view = this.state.isShow ?
             <View
-                style={[styles.container, { top: pos }]}
+                style={[styles.container, this.getPosition()]}
                 pointerEvents="none"
             >
                 <Animated.View
@@ -125,8 +136,7 @@ const styles = StyleSheet.create({
         zIndex: 10000,
     },
     content: {
-        backgroundColor: 'black',
-        borderRadius: 5,
+        backgroundColor: 'rgba(0,0,0,0.7)',
         padding: 10,
     },
     text: {
@@ -142,16 +152,15 @@ Toast.propTypes = {
         'bottom',
     ]),
     textStyle: Text.propTypes.style,
-    positionValue:PropTypes.number,
-    fadeInDuration:PropTypes.number,
-    fadeOutDuration:PropTypes.number,
-    opacity:PropTypes.number
+    positionValue: PropTypes.number,
+    fadeInDuration: PropTypes.number,
+    fadeOutDuration: PropTypes.number,
+    opacity: PropTypes.number
 }
 
 Toast.defaultProps = {
     position: 'bottom',
     textStyle: styles.text,
-    positionValue: 120,
     fadeInDuration: 500,
     fadeOutDuration: 500,
     opacity: 1
