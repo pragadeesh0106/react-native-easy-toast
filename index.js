@@ -133,12 +133,15 @@ const styles = StyleSheet.create({
         right: 0,
         elevation: 999,
         alignItems: 'center',
+        justifyContent:'center',
         zIndex: 10000,
     },
     content: {
         backgroundColor: 'rgba(0,0,0,0.7)',
         padding: 10,
-        width:'100%'
+        width:'100%',
+        alignItems: 'center',
+        justifyContent:'center'
     },
     text: {
         color: 'white'
