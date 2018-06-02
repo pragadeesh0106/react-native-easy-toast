@@ -138,6 +138,7 @@ const styles = StyleSheet.create({
     content: {
         backgroundColor: 'rgba(0,0,0,0.7)',
         padding: 10,
+        width:'100%'
     },
     text: {
         color: 'white'
