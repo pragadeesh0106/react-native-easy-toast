@@ -19,7 +19,7 @@ import {
 import PropTypes from 'prop-types';
 const ViewPropTypes = RNViewPropTypes || View.propTypes;
 export const DURATION = {
-    LENGTH_SHORT: 500,
+    LENGTH_SHORT: 5000,
     FOREVER: 0,
 };
 
